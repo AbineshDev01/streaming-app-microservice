@@ -22,7 +22,7 @@ public class MovieStreamController {
     private static final String FILE_PREFIX = "/home/coder/videos/";
 
     @Autowired
-    private MovieCatalogService movieCatalogService;
+    private MovieInfoClient movieInfoClient;
 
     @GetMapping("/{moviePath}")
     public ResponseEntity<InputStreamResource>  streamVideo(@PathVariable String moviePath) throws FileNotFoundException {
@@ -36,7 +36,7 @@ public class MovieStreamController {
 
     @GetMapping("/with-id/{movieId}")
     public ResponseEntity<InputStreamResource> streamVideo(@PathVariable Long movieId) throws FileNotFoundException {
-        String moviePath = movieCatalogService.getMoviePath(movieId);
+        String moviePath = movieInfoClient.findPathById(movieId);
         log.info("Resolved movie path = {} ", moviePath);
         return streamVideo(moviePath);
     }
